@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Group Work",
+      "setup": "",
+      "run": "./gradlew groupwork-discussion-test",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}
