@@ -8,19 +8,6 @@
 
 descript
 
-## Changes
-<details>
-<summary>Diff with original branch</summary>
-
-<details>
-<summary>sample.java</summary>
- 
-```diff
-input
-```
-</details>
-
-</details>
 
 <div align="center">
  
