@@ -1,6 +1,6 @@
 <div align="right">
  
-![week 2](https://img.shields.io/github/actions/workflow/status/Kyle-Gortych-Kenzie-Group-Work-T2/Week10GroupWork/main.yml?label=main) ![week 2](https://img.shields.io/github/actions/workflow/status/Kyle-Gortych-Kenzie-Group-Work-T2/Week10GroupWork/original.yml?label=original)
+![week 2](https://img.shields.io/github/actions/workflow/status/Kyle-Gortych-Kenzie-Group-Work-T2/Week10GroupWork/EgorsBranch.yml?label=EgorsBranch) 
 
 </div>
 
