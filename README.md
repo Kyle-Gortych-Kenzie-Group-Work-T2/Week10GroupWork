@@ -12,14 +12,11 @@ descript
 <details>
 <summary>Diff with original branch</summary>
 
-<details>
-<summary>sample.java</summary>
- 
-```diff
-input
-```
-</details>
-
+Topic
+TopicDao
+TopicMessage
+TopicMessageDao
+TopicMessageDaoTest
 </details>
 
 <div align="center">
