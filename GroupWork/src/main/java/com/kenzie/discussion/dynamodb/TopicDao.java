@@ -27,7 +27,8 @@ public class TopicDao {
      */
     public Topic createTopic(Topic topic) {
 
-        return null;
+        mapper.save(topic);
+        return topic;
 
     }
 
