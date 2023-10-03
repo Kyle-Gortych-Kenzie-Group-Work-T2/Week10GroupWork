@@ -1,91 +1,47 @@
 package com.kenzie.discussion.dynamodb;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A topic in the Discussion app, which may have many TopicMessages associated
- * with it.
+ * Provides access to Topic items.
  */
-@DynamoDBTable(tableName = "GroupWork-Topics")
-public class Topic {
-    private static final int MAX_NAME_LENGTH = 50;
-
-    private String name;
-    private String description;
-    private Boolean isArchived;
+public class TopicDao {
+    private DynamoDBMapper mapper;
 
     /**
-     * Constructs a name/description-less Topic.
-     * This should only be used by DynamoDBMapper when loading an item.
+     * Constructs a TopicDao with the given DynamoDBMapper.
+     * @param mapper the DynamoDBMapper
      */
-    public Topic() {
+    public TopicDao(DynamoDBMapper mapper) {
+        this.mapper = mapper;
     }
 
     /**
-     * Constructs a Topic with the given name and description.
-     * @param name the topic name
-     * @param description the topic description
+     * Creates a new topic from the Topic object provided.
+     * @param topic the new Topic
+     * @return The topic that was created
      */
-    public Topic(String name, String description) {
-        setName(name);
-        setDescription(description);
-        setArchived(false);
-    }
-@DynamoDBHashKey(attributeName = "name")
-    public String getName() {
-        return name;
+    public Topic createTopic(Topic topic) {
+
+        mapper.save(topic);
+        return topic;
+
     }
 
     /**
-     * Sets the name, validating topic name isn't longer than MAX_NAME_LENGTH.
-     * @param name Topic's new name
+     * Returns a list of up to {@code numTopics}.
+     * @param numTopics The maximum number of topics to be returned. There is no
+     *                  guaranteed that this many will be returned, even if there are
+     *                  more than this number in the table.
+     * @return The Topics
      */
-    public void setName(String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("Topic name must not be null!");
-        } else if (name.length() > MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException("Topic name cannot be longer than " + MAX_NAME_LENGTH);
-        }
-        this.name = name;
-    }
-    @DynamoDBAttribute(attributeName = "description")
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    @DynamoDBAttribute(attributeName = "is_archived")
-    public Boolean isArchived() {
-        return isArchived;
-    }
-
-    public void setArchived(Boolean archived) {
-        isArchived = archived;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Topic topic = (Topic) o;
-        return Objects.equals(name, topic.name) &&
-               Objects.equals(description, topic.description) &&
-               Objects.equals(isArchived, topic.isArchived);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(name, description, isArchived);
+    public List<Topic> getTopics(int numTopics) {
+        List<Topic> topics = mapper.scan(Topic.class, new DynamoDBScanExpression());
+        int endIndex = Integer.min(numTopics, topics.size());
+        return new ArrayList<>(topics.subList(0, endIndex));
     }
 }
