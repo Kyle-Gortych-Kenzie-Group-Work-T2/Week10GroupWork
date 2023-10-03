@@ -1,5 +1,9 @@
 package com.kenzie.discussion.dynamodb;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +12,7 @@ import java.util.Objects;
 /**
  * A message on a particular topic in the Discussion app.
  */
+@DynamoDBTable(tableName = "GroupWork-TopicMessages")
 public class TopicMessage {
     private static final String TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern(TIMESTAMP_PATTERN);
@@ -20,10 +25,11 @@ public class TopicMessage {
     /**
      * Constructs a new TopicMessage, assigning a timestamp to now.
      */
+
     public TopicMessage() {
         timestamp = ZonedDateTime.now(ZoneId.of("UTC")).format(TIMESTAMP_FORMATTER);
     }
-
+@DynamoDBAttribute(attributeName = "topicName")
     public String getTopicName() {
         return topicName;
     }
@@ -31,7 +37,7 @@ public class TopicMessage {
     public void setTopicName(String topicName) {
         this.topicName = topicName;
     }
-
+@DynamoDBRangeKey(attributeName = "timestamp")
     public String getTimestamp() {
         return timestamp;
     }
@@ -39,7 +45,7 @@ public class TopicMessage {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-
+    @DynamoDBAttribute(attributeName = "author")
     public String getAuthor() {
         return author;
     }
@@ -47,7 +53,7 @@ public class TopicMessage {
     public void setAuthor(String author) {
         this.author = author;
     }
-
+    @DynamoDBAttribute(attributeName = "messageContent")
     public String getMessageContent() {
         return messageContent;
     }
